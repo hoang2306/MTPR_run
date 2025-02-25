@@ -8,7 +8,10 @@ class dataset:
         self.logging = logging
         np.random.seed(1122)  # to ensure the code generate the same test sets.
         self.name = 'amazon'
+
+        print(f'load data from amazon/men,py')
         self.data = np.load('amazon/men.npy', allow_pickle=True).item()
+        print(f'loaded men.py')
 
         self.usz = len(self.data['train'])
         self.isz = len(self.data['feat'])
