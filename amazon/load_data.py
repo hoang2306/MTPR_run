@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 from sklearn.decomposition import PCA
+import time 
 
 
 class dataset:
@@ -20,6 +21,7 @@ class dataset:
         self.ssz = args.ssz
 
         # training set
+        start_make_train = time.time()
         d_train = self.data['train']
         self.train_list = []
         self.warm_start = set([])
@@ -33,9 +35,11 @@ class dataset:
             self.train[user] = set(d_train[user])
 
         print(f'train list is ready')
+        print(f'time to make train: {time.time() - start_make_train}')
         self.logging.info('train list is ready')
 
         # val set
+        start_make_val = time.time()
         self.posset = set(self.train_list)
         self.logging.info(['posset sized: ', len(self.posset)])
         self.cold_start = set([])
@@ -58,8 +62,10 @@ class dataset:
 
         self.logging.info('val list is ready')
         print(f'val list is ready')
+        print(f'time to make val: {time.time() - start_make_val}')
 
         # test set
+        start_make_test = time.time()
         d_test = self.data['test']
         test_list = [[] for i in range(self.usz)]
         self.test_gt = np.zeros((self.usz, self.ssz))
@@ -78,6 +84,7 @@ class dataset:
         self.test_samples = np.array(test_list)
         self.logging.info('test list is ready')
         print(f'test list is ready')
+        print(f'time to make test: {time.time() - start_make_test}')
 
         self.logging.info(['test items:', len(self.cold_start)])
         self.cold_start = self.cold_start - self.warm_start
