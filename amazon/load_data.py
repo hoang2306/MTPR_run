@@ -9,7 +9,7 @@ class dataset:
         np.random.seed(1122)  # to ensure the code generate the same test sets.
         self.name = 'amazon'
 
-        print(f'load data from amazon/men,py')
+        print(f'load data from amazon/men.py')
         self.data = np.load('amazon/men.npy', allow_pickle=True).item()
         print(f'loaded men.py')
 
@@ -32,6 +32,7 @@ class dataset:
         for user in range(self.usz):
             self.train[user] = set(d_train[user])
 
+        print(f'train list is ready')
         self.logging.info('train list is ready')
 
         # val set
@@ -56,6 +57,8 @@ class dataset:
         self.val_samples = np.array(val_list)
 
         self.logging.info('val list is ready')
+        print(f'val list is ready')
+
         # test set
         d_test = self.data['test']
         test_list = [[] for i in range(self.usz)]
@@ -74,6 +77,7 @@ class dataset:
                 sits.add(ele)
         self.test_samples = np.array(test_list)
         self.logging.info('test list is ready')
+        print(f'test list is ready')
 
         self.logging.info(['test items:', len(self.cold_start)])
         self.cold_start = self.cold_start - self.warm_start
