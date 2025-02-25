@@ -57,7 +57,9 @@ else:
 
 logging.info(args)
 if args.dataset == 'amazon':
+    print(f'loading amazon dataset')
     ds = ds_amazon(logging, args)
+    print(f'done loading')
 else:
     raise Exception('no dataset' + args.dataset)
 
@@ -75,7 +77,7 @@ else:
     raise Exception('unknown model type', args.model)
 
 device = torch.device('cuda:%d' % args.gpu)
-model.to(device)
+# model.to(device)
 
 model.train()
 
