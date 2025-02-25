@@ -127,6 +127,12 @@ class MTPR(Model):
                 if s is None:
                     break
                 uid, iid, niid = s[:,0], s[:,1], s[:,2]
+                
+                # move data to gpu 
+                uid = torch.tensor(uid, dtype=torch.long).cuda()
+                iid = torch.tensor(iid, dtype=torch.long).cuda()
+                niid = torch.tensor(niid, dtype=torch.long).cuda()
+
 
                 optimizer.zero_grad()
                 optimizer2.zero_grad()
@@ -139,7 +145,7 @@ class MTPR(Model):
                 optimizer2.step()
                 optimizer3.step()
 
-            if epoch > 0 and epoch % 10 == 0:
+            if epoch >= 0 and epoch % 10 == 0:
                 self.logging.info(["Epoch %d:" % epoch,
                       torch.norm(self.P.weight).item(),
                       torch.norm(self.Q.weight).item(),

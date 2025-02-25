@@ -8,6 +8,7 @@ from vbpr import VBPR
 from cbpr import CBPR
 from mtpr import MTPR
 from amr import AMR
+import torch 
 
 
 
@@ -33,6 +34,12 @@ def parse_args():
                         help='batch size')
     parser.add_argument('--ssz', type=int, default=1000,
                         help='size of test samples, including positive and negative samples')
+    
+    # add gpu 
+    parser.add_argument('--gpu', type=int, default=0,
+                        help='gpu id')
+    
+
     return parser.parse_args()
 
 args = parse_args()
@@ -66,6 +73,9 @@ elif args.model == 'mtpr':
     model = MTPR(ds,args, logging)
 else:
     raise Exception('unknown model type', args.model)
+
+device = torch.device('cuda:%d' % args.gpu)
+model.to(device)
 
 model.train()
 
